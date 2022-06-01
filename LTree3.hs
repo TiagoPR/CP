@@ -50,6 +50,12 @@ folhasSierp :: LTree3 Tri → [Tri]
 folhasSierp = cataLTree3 g1
 
 g2 :: (Tri,Int) -> 
+g2 (a,0) = a
+g2 (((a,b),c),h+1) = t1 t2 t3 where
+    l2 = c/2
+    t1 = (l2,(a + l2, b))
+    t2 = (l2,(a, b + l2))
+    t3 = (l2,(a,b))
 
 g1 :: LTree3 Tri -> [Tri]
 g1 Tri a = [a]

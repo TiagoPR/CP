@@ -1,11 +1,17 @@
 import LTree
 
 
-both :: LTree Integer -> (Integer,Integer)
+--both :: LTree Integer -> (Integer,Integer)
 --both (Leaf a) = (a,a)
 --both (Fork (a,b)) = (min (snd (both a)) (snd (both b)), max (fst (both a)) (fst (both b)))
 
-both a = (bob a , alice a) 
+-- Esta a dar errado:
+--both (Leaf a) = (a,a)
+--both (Fork (a,b)) = (uncurry min (both a),uncurry max (both b)) 
+
+--both a = (bob a , alice a) 
+
+g = either (split id id) (split (uncurry min ((snd fst) >< (snd snd)) ) (uncurry max ((fst snd) >< (fst fst)))) 
 
 alice :: LTree Integer -> Integer
 alice (Leaf a) = a

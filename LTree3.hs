@@ -4,24 +4,21 @@ import Cp
 import Data.Monoid
 import Control.Applicative
 import List
+import Svg
 
-type Tri = (Point, Side)
-
-type Side = Int
-type Point = (Int,Int)
 
 -- (1) Datatype definition -----------------------------------------------------
 
-data LTree3 a = Tri a | Nodo (LTree3 a) (LTree3 a) (LTree3 a) deriving (Eq, Show)
+data LTree3 a = Tri a | Nodo (LTree3 a, (LTree3 a, LTree3 a)) deriving (Eq, Show)
 
-inLTree3 :: Tri a (LTree3 a, LTree3 a, LTree3 a) -> LTree3 a
+inLTree3 :: Either a (LTree3 a, (LTree3 a, LTree3 a)) -> LTree3 a
 inLTree3 = either Tri Nodo
 
-outLTree3 :: LTree3 a -> Either a (LTree3 a,LTree3 a, LTree3 a)
+outLTree3 :: LTree3 a -> Either a (LTree3 a,(LTree3 a, LTree3 a))
 outLTree3 (Tri a)       = i1 a
-outLTree3 (Nodo (t1,t2,t3)) = i2 (t1,t2,t3)
+outLTree3 (Nodo (t1,(t2,t3))) = i2 (t1,(t2,t3))
 
-baseLTree3 g f = g -|- f >< f >< f
+baseLTree3 g f = g -|- f >< (f >< f)
 
 -- (2) Ana + cata + hylo -------------------------------------------------------
 
@@ -40,23 +37,33 @@ instance Functor LTree3
 
 -- (4) Examples ----------------------------------------------------------------
 
-sierpinski :: (Tri,Int) → [Tri]
-sierpinski = folhasSierp · geraSierp
+type Tri = (Point, Side)
 
-geraSierp :: (Tri,Int) → LTree3 Tri
-geraSierp = anaLTree3 g2
+type Side = Int
+type Point = (Int,Int)
 
-folhasSierp :: LTree3 Tri → [Tri]
+--sierpinski :: (Tri,Int) -> [Tri]
+--sierpinski = folhasSierp · geraSierp
+
+--geraSierp :: (Tri,Int) -> LTree3 Tri
+--geraSierp = anaLTree3 g2
+
+folhasSierp :: LTree3 Tri -> [Tri]
 folhasSierp = cataLTree3 g1
 
-g2 :: (Tri,Int) -> 
-g2 (a,0) = a
-g2 (((a,b),c),h+1) = t1 t2 t3 where
-    l2 = c/2
-    t1 = (l2,(a + l2, b))
-    t2 = (l2,(a, b + l2))
-    t3 = (l2,(a,b))
+--g2 :: (Tri,Int) -> 
+--g2 (a,0) = a
+--g2 (((a,b),c),h+1) = t1 t2 t3 where
+--    | l2 = c/2
+--    | t1 = (l2,(a + l2, b))
+--    | t2 = (l2,(a, b + l2))
+--    | t3 = (l2,(a,b))
 
 g1 :: LTree3 Tri -> [Tri]
-g1 Tri a = [a]
-g1 (LTree3 a) (LTree3 b) (LTree3 c) = concat
+g1 = concat
+
+base = ((0, 0), 32)
+
+--desenha x = picd00 [scale 0.44 (0, 0) (x >>= tri2svg)]
+
+--teste = desenha (sierpinski (base, 3))

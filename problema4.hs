@@ -28,7 +28,7 @@ zeros = 0 : zeros
 
 pad n x = take m zeros ++ x where m = n - length x
 
-bflips = propagate bflip
+--bflips = propagate bflip
 
 enc :: Char -> Bin
 enc c = tobin (ord c - ord 'A')
@@ -36,7 +36,7 @@ enc c = tobin (ord c - ord 'A')
 dec :: Bin -> Char
 dec b = chr (frombin b + ord 'A')
 
-dec' = fmap dec
+--dec' = fmap dec
 
 bflip :: Bit -> Dist Bit
 bflip 0 = D [(0, 0.96),(1, 0.04)]
@@ -45,9 +45,8 @@ bflip 1 = D [(1, 0.90),(0, 0.10)]
 
 
 propagate :: Monad m => (t -> m a) -> [t ] -> m [a ]
-propagate f = baseList g f where
-    g f = nil -|- (g2 f)
-    g2 f (a, b) = concat (f a, b)
 
-transmit = dec' . propagate bflip . enc
+propagate f = mmap f
+
+--transmit = dec' . propagate bflip . enc
 

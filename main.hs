@@ -11,7 +11,7 @@ import LTree
 
 --both a = (bob a , alice a) 
 
-g = either (split id id) (split (uncurry min ((snd fst) >< (snd snd)) ) (uncurry max ((fst snd) >< (fst fst)))) 
+--g = either (split id id) (split (uncurry min ((snd fst) >< (snd snd)) ) (uncurry max ((fst snd) >< (fst fst)))) 
 
 alice :: LTree Integer -> Integer
 alice (Leaf a) = a

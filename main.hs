@@ -1,5 +1,5 @@
 import LTree
-
+import Cp
 
 --both :: LTree Integer -> (Integer,Integer)
 --both (Leaf a) = (a,a)
@@ -10,8 +10,15 @@ import LTree
 --both (Fork (a,b)) = (uncurry min (both a),uncurry max (both b)) 
 
 --both a = (bob a , alice a) 
+both :: LTree Integer -> (Integer,Integer)
+both = cataLTree g
 
---g = either (split id id) (split (uncurry min ((snd fst) >< (snd snd)) ) (uncurry max ((fst snd) >< (fst fst)))) 
+g :: Either Integer ((Integer,Integer),(Integer,Integer)) -> (Integer,Integer)
+
+g (Left a) = (a,a)
+g (Right ((a,b),(c,d))) = (uncurry max(b,d),uncurry min(a,c))
+
+bothb = split alice (bob)
 
 alice :: LTree Integer -> Integer
 alice (Leaf a) = a

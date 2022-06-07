@@ -43,13 +43,13 @@ instance Functor LTree3
 
 
 
---sierpinski :: (Tri,Int) -> [Tri]
---sierpinski = folhasSierp · geraSierp
+sierpinski :: (Tri,Int) -> [Tri]
+sierpinski = folhasSierp . geraSierp
 
 geraSierp :: (Tri,Int) -> LTree3 Tri
 geraSierp = anaLTree3 g2
 
-folhasSierp :: LTree3 a -> [Tri]
+folhasSierp :: LTree3 Tri -> [Tri]
 folhasSierp = cataLTree3 g1
 
 g2 :: (Tri,Int) -> Either Tri ((Tri,Int),((Tri,Int),(Tri,Int)))
@@ -60,13 +60,18 @@ g2 (((a,b),c),h) = i2 ((t1,h-1), ((t2,h-1) ,(t3,h-1))) where
     t2 = ((a, b + l2),l2)
     t3 = ((a,b),l2)
 
-g1 :: LTree3 Tri -> Either Tri ([Tri],([Tri],[Tri]))
-g1 (Val a) = i1 a
-g1 (a,(b,c)) = i2((++) a ((++) b c))
+g1 :: Either Tri ([Tri],([Tri],[Tri])) -> [Tri]
+g1 (Left a) = [a]
+g1 (Right (a,(b,c))) = a ++ (b ++ c)
+
+type Svg = String
+
+tri2svg :: Tri -> Svg
+tri2svg (p, c) = (red . polyg) [p, p .+ (0, c), p .+ (c, 0)]
 
 
 base = ((0, 0), 32)
 
---desenha x = picd00 [scale 0.44 (0, 0) (x >>= tri2svg)]
+desenha x = picd' [scale 0.44 (0, 0) (x >>= tri2svg)]
 
---teste = desenha (sierpinski (base, 3))
+teste = desenha (sierpinski (base, 4))

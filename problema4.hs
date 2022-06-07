@@ -46,7 +46,7 @@ bflip 1 = D [(1, 0.90),(0, 0.10)]
 
 propagate :: Monad m => (t -> m a) -> [t ] -> m [a ]
 
-propagate f = mmap f
+propagate f = mcataList 
 
 --transmit = dec' . propagate bflip . enc
 

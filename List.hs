@@ -179,7 +179,7 @@ ccat = cataList (either (const id) compose). map (:) where
        compose =  curry(ap.(id><ap).assocr)
 
 -- monadic map
-mmap f = cataList $ either (return.nil)(fmap cons.dstr.(f><id))
+--mmap f = cataList $ either (return.nil)(fmap cons.dstr.(f><id))
 
 -- distributive law
 lam  :: Strong m => [m a] -> m [a]

@@ -14,7 +14,6 @@ both :: LTree Integer -> (Integer,Integer)
 both = cataLTree g
 
 g :: Either Integer ((Integer,Integer),(Integer,Integer)) -> (Integer,Integer)
-
 g (Left a) = (a,a)
 g (Right ((a,b),(c,d))) = (uncurry max(b,d),uncurry min(a,c))
 

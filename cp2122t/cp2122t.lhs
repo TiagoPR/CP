@@ -935,24 +935,17 @@ c d (n+1) = if (snd.snd) == 0 then d else (-) (snd.snd) 1
 \just\equiv{ def. de for b i }
      |(split (q d) (split (r d) (c d))) = for g d (0,(0,d)) where
           g d = (split h1 (split h2 h3)) |
-\end{eqnarray*}
 
 A partir de g d:
-\begin{eqnarray*}
+
 \start
-     |g d = (split h1 (split h2 h3)) |
+     |g d = (split h1 (split h2 h3))|
 \just\equiv{ def. de h1,h2,h3 }
-     |g d = (split ((+) (split fst (snd.snd)) == 0 -> 1,0) (split ((snd.snd) == 0 -> 0,((+) (split 1 (fst.snd))))|
-
-     |((snd.snd) == 0 -> d,(-) (split (snd.snd) 1))))|
+     |g d = (split ((+) (split fst (snd.snd) == 0 -> 1,0)) (split ((snd.snd) == 0 -> 0,((+) (split 1 (fst.snd)))) ((snd.snd) == 0 -> d,(-) (split (snd.snd) 1))))|
 \just\equiv{ (71),(76) }
-     |g d (q,(r,c)) = ((split ((+) (split fst (snd.snd)) == 0 -> 1,0 (q,(r,c))))|
-
-     |(split ((snd.snd) == 0 -> 0,(+) (split 1 (fst.snd)) (q,(r,c))) ((snd.snd) == 0 -> d,(-) (split (snd.snd) 1) (q,(r,c)))))|
+     |g d (q,(r,c)) = (split ((+) (split fst (snd.snd)) == 0 -> 1,0 (q,(r,c))) (split ((snd.snd) == 0 -> 0,(+) (split 1 (fst.snd)) (q,(r,c))) ((snd.snd) == 0 -> d,(-) (split (snd.snd) 1) (q,(r,c)))))|
 \just\equiv{ (76),(78),def de 1, def de 0}
-     |g d (q,(r,c)) = (split ((+) (split (fst (q,(r,c))) ((snd.snd) (q,r,c)) == 0 -> 1,0))|
-     |(split ((snd.snd) (q,(r,c))) == 0 -> 0, ((+) (split 1 ((fst.snd) (q,(r,c))))) ((snd.snd) (q,(r,c)) == 0 -> d|
-     |(q,(r,c)), (-) (split ((snd.snd) (q,(r,c))) (1 (q,(r,c)))))))|
+     |g d (q,(r,c)) = (split ((+) (split (fst (q,(r,c))) ((snd.snd) (q,r,c)) == 0 -> 1,0)) (split ((snd.snd) (q,(r,c)) == 0 -> 0, ((+) (split 1 ((fst.snd) (q,(r,c)))))) ((snd.snd) (q,(r,c)) == 0 -> d (q,(r,c)), (-) (split ((snd.snd) (q,(r,c))) (1 (q,(r,c)))))))|
 \just\equiv{def de 1, def de 0, 79, 3}
      |g d (q,(r,c)) = (split ((+) (split q (c == 0 -> 1,0))) ((split (c == 0 -> 0) ((+) (split 1 r)) ((split (c == 0 -> d) ((-) (split c 1)))))))|
 \just\equiv{ (30) }
@@ -968,12 +961,14 @@ A partir de g d:
 \just\equiv{ (28) }
      |g d (q,(r,c)) = (either (split (q+1) (split 0 d)) (split q (split ((+) (split 1 r)) ((-) (split c 1))))).(c == 0)?|
 \just\equiv{ (def. de (+),(-)) }
-     |g d (q,(r,c)) = (either ((split (q+1) (split 0 d)) (split q (split (1+r) (c-1))))).(c == 0)?|
+     |g d (q,(r,c)) = (either (split (q+1) (split 0 d)) (split q (split (1+r) (c-1)))).(c == 0)?|
 \just\equiv{ (trivial) }
      |g d (q,(r,0)) = (split (q+1) ((split 0 d)))|
+\\
      |g d (q,(r,c)) = (split q ((split (1+r) (c-1))))|
 \just\equiv{ (succ) }
      |g d (q,(r,0)) = (split (q+1) ((split 0 d)))|
+\\
      |g d (q,(r,c+1)) = (split q ((split (1+r) c)))|
 \end{eqnarray*}
 \subsection*{Problema 2}
@@ -996,20 +991,109 @@ A partir de g d:
 
 \begin{eqnarray*}
 \start
+     |g = (either (split id id) (split (uncurry min (split (snd.fst) (snd.snd))) (uncurry max (split (snd.fst) (snd.fst)))))|
+\just\equiv{ Lei da troca }
+     |g = (split (either id (uncurry min (split (snd.fst) (snd.snd)))) (either id (uncurry max (split (snd.fst) (snd.fst)))))|
+\end{eqnarray*}
+
+Pelo diagrama:
+
+\begin{eqnarray*}
+\start
+     |split f g = (cata (split (either id (uncurry min (split (snd.fst) (snd.snd)))) (either id (uncurry max (split (snd.fst) (snd.fst))))))|
+\just\equiv{ fokkinga }
+     \begin{lcbr}
+     |f.inLTree = (either id (uncurry min (split (snd.fst) (snd.snd)))).functor (split f g)|
+     \\
+     |g.inLTree = (either id (uncurry max (split (snd.fst) (snd.fst)))).functor (split f g)|
+     \end{lcbr}
+\just\equiv{ def. de inLTree e FLTree }
+     \begin{lcbr}
+     |f.(either Leaf Fork) = (either id (uncurry min (split (snd.fst) (snd.snd)))).(id + (split f g) >< (split f g))|
+     \\
+     |g.(either Leaf Fork) = (either id (uncurry max (split (snd.fst) (snd.fst)))).(id + (split f g) >< (split f g))|
+     \end{lcbr}
+\just\equiv{ (20),(22),(1) }
+     \begin{lcbr}
+     |(either (f.Leaf) (f.Fork)) = (either id (uncurry min (split (snd.fst) (snd.snd)).(id + (split f g) >< (split f g))))|
+     \\
+     |(either (g.Leaf) (g.Fork)) = (either id (uncurry max (split (snd.fst) (snd.fst)).(id + (split f g) >< (split f g))))|
+     \end{lcbr}
+\just\equiv{ (9) }
 \begin{lcbr}
      \begin{lcbr}
-          |bob leaf a = a|
-     \\
-          |bob fork (a,b) = min (alice a, alice b)|
+          |f.Leaf = id|
+          \\
+          |f.Fork = (uncurry min (split (snd.fst) (snd.snd)).(id + (split f g) >< (split f g)))|
      \end{lcbr}
-\\
-     \begin{lcbr}
-          |alice leaf a = a |
      \\
-          |alice fork (a,b) = max (bob a, bob b)|
+     \begin{lcbr}
+          |g.Leaf = id|
+          \\
+          |f.Fork = (uncurry max (split (snd.fst) (snd.fst)).(id + (split f g) >< (split f g)))|
      \end{lcbr}
 \end{lcbr}
-\just\equiv{both}
+\just\equiv{ (12),(13) }
+\begin{lcbr}
+     \begin{lcbr}
+          |f.Leaf = id|
+          \\
+          |f.Fork = (uncurry min (split (snd.(split f g)) (snd.(split f g))))|
+     \end{lcbr}
+     \\
+     \begin{lcbr}
+          |g.Leaf = id|
+          \\
+          |f.Fork = (uncurry max (split (fst.(split f g)) (fst.(split f g))))|
+     \end{lcbr}
+\end{lcbr}
+\just\equiv{ (7) }
+\begin{lcbr}
+     \begin{lcbr}
+          |f.Leaf = id|
+          \\
+          |f.Fork = (uncurry min (split g g))|
+     \end{lcbr}
+     \\
+     \begin{lcbr}
+          |g.Leaf = id|
+          \\
+          |f.Fork = (uncurry max (split f f))|
+     \end{lcbr}
+\end{lcbr}
+\just\equiv{ (71) }
+\begin{lcbr}
+     \begin{lcbr}
+          |f.Leaf a = id a|
+          \\
+          |f.Fork (a,b) = (uncurry min (split g g)) (a,b)|
+     \end{lcbr}
+     \\
+     \begin{lcbr}
+          |g.Leaf a= id a|
+          \\
+          |f.Fork (a,b)= (uncurry max (split f f)) (a,b)|
+     \end{lcbr}
+\end{lcbr}
+\just\equiv{ (76) }
+\begin{lcbr}
+     \begin{lcbr}
+          |f.Leaf a = id a|
+          \\
+          |f.Fork (a,b) = (uncurry min (split (g a) (g a)))|
+     \end{lcbr}
+     \\
+     \begin{lcbr}
+          |g.Leaf a= id a|
+          \\
+          |f.Fork (a,b)= (uncurry max (split (f a) (f a)))|
+     \end{lcbr}
+\end{lcbr}
+
+|f = alice|
+\\
+|g = bob|
+
 \end{eqnarray*}
 
 \begin{code}
@@ -1045,52 +1129,70 @@ g (Right ((a,b),(c,d))) = (uncurry max(b,d),uncurry min(a,c))
 Biblioteca |LTree3|:
 
 \begin{code}
-inLTree3 = undefined
+inLTree3 = either Val Nodo
 
-outLTree3 (Tri t) = undefined
-outLTree3 (Nodo a b c) =  undefined
+outLTree3 (Val a)             = i1 a
+outLTree3 (Nodo (t1,(t2,t3))) = i2 (t1,(t2,t3))
 
-baseLTree3 f g = undefined
+baseLTree3 g f = g -|- f >< (f >< f)
 
-recLTree3 f = undefined
+recLTree3 f = baseLTree3 id f
 
-cataLTree3 f = undefined
+cataLTree3 g = g . (recLTree3 (cataLTree3 g)) . outLTree3
 
-anaLTree3 f = undefined
+anaLTree3 f = inLTree3 . (recLTree3 (anaLTree3 f) ) . f
 
-hyloLTree3 f g = undefined
+hyloLTree3 f g = cataLTree3 f . anaLTree3 g
 \end{code}
 Genes do hilomorfismo |sierpinski|:
 \begin{code}
-g1 = undefined
+g1 (Left a) = [a]
+g1 (Right (a,(b,c))) = a ++ (b ++ c)
 
-g2 (t,0) = undefined
-g2 (((x,y),s),n+1) = i2((t1,t2),t3) where
-     t1 = undefined
-     t2 = undefined
-     t3 = undefined
+g2 (a,0) = i1 a
+g2 (((a,b),c),h) = i2 ((t1,h-1), ((t2,h-1) ,(t3,h-1))) where
+    l2 = div c 2
+    t1 = ((a + l2, b),l2)
+    t2 = ((a, b + l2),l2)
+    t3 = ((a,b),l2)
 \end{code}
 
-\subsection*{Problema 4}
+\subsection{Problema 4}
+
+Devido a problemas de tipo do mmap o nosso grupo copiou a definição de mmap das aulas gravadas pois os tipos são compatíveis
+
+
+\begin{code}
+mmap f [] = return []
+mmap f (h:t) = do {b<- f h ; x <- mmap f t; return(b:x)}
+
+\end{code}
 
 \begin{code}
 propagate :: Monad m => (t -> m a) -> [t] -> m [a]
-propagate f = cataList (g f) where
-   g f = either undefined (g2 f)
-   g2 f (a,b) = undefined
+propagate f = mmap f x
 \end{code}
 
 \begin{code}
-propagate3 :: (Monad m) => (Bit3 -> m Bit3) -> [Bit] -> m [Bit]
-propagate3 f = cataList (g f) where
-   g f = either undefined (g2 f)
-   g2 f (a,b) = undefined
+tob3:: Bit -> (Bit,Bit,Bit)
+tob3 x = (x,x,x)
+\end{code}
+
+\begin{code}
+mmap2 ::  Monad m => ((Bit,Bit,Bit) -> m (Bit,Bit,Bit) ) -> [(Bit,Bit,Bit)] -> m [Bit ]
+mmap2 f [] = return []
+mmap2 f (h:t) = do {b<- fmap v3 (f h) ; x <- mmap2 f t; return(b:x)}
+\end{code}
+
+\begin{code}
+propagate3 :: Monad m => ((Bit,Bit,Bit) -> m (Bit,Bit,Bit) ) -> [Bit] -> m [Bit]
+propagate3 f = mmap2 f (map tob3 x)
 \end{code}
 A função |bflip3|, a programar a seguir, deverá estender |bflip| aos três bits da entrada:
 
 \begin{code}
 bflip3 :: Bit3 -> Dist Bit3
-bflip3(a,b,c) = do { undefined } 
+bflip3(a,b,c) = do do {x<-bflip a; y<- bflip b; z<- bflip c; return (x,y,z)} 
 
 \end{code}
 

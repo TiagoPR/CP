@@ -951,11 +951,30 @@ A partir de g d:
      |(split ((snd.snd) == 0 -> 0,(+) (split 1 (fst.snd)) (q,(r,c))) ((snd.snd) == 0 -> d,(-) (split (snd.snd) 1) (q,(r,c)))))|
 \just\equiv{ (76),(78),def de 1, def de 0}
      |g d (q,(r,c)) = (split ((+) (split (fst (q,(r,c))) ((snd.snd) (q,r,c)) == 0 -> 1,0))|
-     |(split ((snd.snd) (q,(r,c))) == 0 -> 0, ((+) (split 1 ((fst.snd) (q,(r,c))))) ((snd.snd) (q,(r,c)) == 0 -> d
-     |(q,(r,c)), (-) (split ((snd.snd) (q,(r,c))) (1 (q,(r,c)))))))
+     |(split ((snd.snd) (q,(r,c))) == 0 -> 0, ((+) (split 1 ((fst.snd) (q,(r,c))))) ((snd.snd) (q,(r,c)) == 0 -> d|
+     |(q,(r,c)), (-) (split ((snd.snd) (q,(r,c))) (1 (q,(r,c)))))))|
 \just\equiv{def de 1, def de 0, 79, 3}
      |g d (q,(r,c)) = (split ((+) (split q (c == 0 -> 1,0))) ((split (c == 0 -> 0) ((+) (split 1 r)) ((split (c == 0 -> d) ((-) (split c 1)))))))|
 \just\equiv{ (30) }
+     |g d (q,(r,c)) = (split ((+) (split q ((either 1 0).(c == 0)?))) (split ((either 0 ((+) (split 1 r))).(c == 0)?) ((either d ((-) (split c 1))).(c == 0)?)))| 
+\just\equiv{ (9) }
+     |g d (q,(r,c)) = (split ((+) (split q ((either 1 0).(c == 0)?))) (split (either 0 ((+) (split 1 r))) (either d ((-) (split c 1)))).(c == 0)?)|
+\just\equiv{ (28) }
+     |g d (q,(r,c)) = (split ((+) (split q ((either 1 0).(c == 0)?))) (either (split 0 d) (either ((+) (split 1 r)) ((-) (split c 1)))).(c == 0)?)|
+\just\equiv{ (def de (+)) }
+     |g d (q,(r,c)) = (split ((either (q+1) q).(c == 0)?) (either (split 0 d) (either ((+) (split 1 r)) ((-) (split c 1)))).(c == 0)?)|
+\just\equiv{ (9) }
+     |g d (q,(r,c)) = (split ((either (q+1) q)) (either (split 0 d) (either ((+) (split 1 r)) ((-) (split c 1))))).(c == 0)?|
+\just\equiv{ (28) }
+     |g d (q,(r,c)) = (either (split (q+1) (split 0 d)) (split q (split ((+) (split 1 r)) ((-) (split c 1))))).(c == 0)?|
+\just\equiv{ (def. de (+),(-)) }
+     |g d (q,(r,c)) = (either ((split (q+1) (split 0 d)) (split q (split (1+r) (c-1))))).(c == 0)?|
+\just\equiv{ (trivial) }
+     |g d (q,(r,0)) = (split (q+1) ((split 0 d)))|
+     |g d (q,(r,c)) = (split q ((split (1+r) (c-1))))|
+\just\equiv{ (succ) }
+     |g d (q,(r,0)) = (split (q+1) ((split 0 d)))|
+     |g d (q,(r,c+1)) = (split q ((split (1+r) c)))|
 \end{eqnarray*}
 \subsection*{Problema 2}
 

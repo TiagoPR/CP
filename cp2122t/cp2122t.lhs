@@ -902,7 +902,7 @@ q d (n+1) = h1 . (q d (r d, c d))
 Concluimos então que:
 
 \begin{code}
-q d (n+1) = if (+) split fst snd.snd == 0 then 1 else 0
+q d (n+1) = if (+) (split fst (snd.snd)) == 0 then 1 else 0
 \end{code}
 
 \begin{code}

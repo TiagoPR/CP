@@ -1171,12 +1171,73 @@ g2 (((a,b),c),h) = i2 ((t1,h-1), ((t2,h-1) ,(t3,h-1))) where
     t3 = ((a,b),l2)
 \end{code}
 
+hilomorfismo:
+
+\begin{eqnarray*}
+\xymatrix@@C=2cm{
+   |(Tri,Int)|
+          \ar[d]_-{\ana{g2}}
+          \ar@@/_5pc/[dd]_-{\llbracket |g2, g1| \rrbracket}
+           \ar[r]^-{|g2|}
+&
+   |Tri + (Tri,Int)|^3
+          \ar[d]^{|id + |\ana{g2}^3}
+\\
+    |LTree3 Tri|
+          \ar[d]_-{|cata g1|}
+           \ar@@/^/[r]^-{|outT|}_-\cong
+&
+   |Tri + (LTree3 Tri)|^3
+          \ar@@/^/[l]^-{|inT|}
+          \ar[d]^{|id + |\cata{g1}^3}
+\\
+    Tri^{*}
+&
+   |Tri + |(Tri^{*})^3
+          \ar[l]^-{|g1|}
+}
+\end{eqnarray*}
+
 \subsection{Problema 4}
 
 Devido a problemas de tipo do mmap o nosso grupo copiou a definição de mmap das aulas gravadas pois os tipos são compatíveis
 
+\begin{eqnarray*}
+\xymatrix@@C=2cm{
+    |Bin|
+           \ar[d]_-{|cata propagate|}
+           \ar@@/^/[r]^-{|outT|}_-\cong
+&
+    |1 + Bit >< Bin|
+           \ar[d]^{|id + id >< propagate |}
+           \ar@@/^/[l]^-{|inT|}
+\\
+     |Dist |Bit^{*}
+&
+     |1 + Bit >< Dist |Bit^{*}
+           \ar[l]^-{|propagate |}
+}
+\end{eqnarray*}
+
+\begin{eqnarray*}
+\xymatrix@@C=2cm{
+    |Bin|
+           \ar[d]_-{|cata propagate3|}
+           \ar@@/^/[r]^-{|outT|}_-\cong
+&
+    |1 + Bit >< Bin|
+           \ar[d]^{|id + id >< propagate3 |}
+           \ar@@/^/[l]^-{|inT|}
+\\
+     |Dist |Bit^{*}
+&
+     |1 + Bit >< Dist | Bit^{*}
+           \ar[l]^-{|propagate3 |}
+}
+\end{eqnarray*}
 
 \begin{code}
+mmap :: Monad m => (t -> m a) -> [t] -> m [a]
 mmap f [] = return []
 mmap f (h:t) = do {b<- f h ; x <- mmap f t; return(b:x)}
 

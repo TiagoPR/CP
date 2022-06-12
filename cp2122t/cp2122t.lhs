@@ -1015,22 +1015,22 @@ Pelo diagrama:
      \end{lcbr}
 \just\equiv{ (20),(22),(1) }
      \begin{lcbr}
-     |(either (f.Leaf) (f.Fork)) = (either id (uncurry min (split (snd.fst) (snd.snd)).(id + (split f g) >< (split f g))))|
+     |(either (f.Leaf) (f.Fork)) = (either id (uncurry min (split (snd.fst) (snd.snd)).((split f g) >< (split f g))))|
      \\
-     |(either (g.Leaf) (g.Fork)) = (either id (uncurry max (split (snd.fst) (snd.fst)).(id + (split f g) >< (split f g))))|
+     |(either (g.Leaf) (g.Fork)) = (either id (uncurry max (split (snd.fst) (snd.fst)).((split f g) >< (split f g))))|
      \end{lcbr}
 \just\equiv{ (9) }
 \begin{lcbr}
      \begin{lcbr}
           |f.Leaf = id|
           \\
-          |f.Fork = (uncurry min (split (snd.fst) (snd.snd)).(id + (split f g) >< (split f g)))|
+          |f.Fork = (uncurry min (split (snd.fst) (snd.snd)).((split f g) >< (split f g)))|
      \end{lcbr}
      \\
      \begin{lcbr}
           |g.Leaf = id|
           \\
-          |f.Fork = (uncurry max (split (snd.fst) (snd.fst)).(id + (split f g) >< (split f g)))|
+          |g.Fork = (uncurry max (split (snd.fst) (snd.fst)).((split f g) >< (split f g)))|
      \end{lcbr}
 \end{lcbr}
 \just\equiv{ (12),(13) }
@@ -1038,13 +1038,13 @@ Pelo diagrama:
      \begin{lcbr}
           |f.Leaf = id|
           \\
-          |f.Fork = (uncurry min (split (snd.(split f g)) (snd.(split f g))))|
+          |f.Fork = (uncurry min (split (snd.(split f g).fst) (snd.(split f g).snd)))|
      \end{lcbr}
      \\
      \begin{lcbr}
           |g.Leaf = id|
           \\
-          |f.Fork = (uncurry max (split (fst.(split f g)) (fst.(split f g))))|
+          |g.Fork = (uncurry max (split (fst.(split f g).snd) (fst.(split f g).fst)))|
      \end{lcbr}
 \end{lcbr}
 \just\equiv{ (7) }
@@ -1052,13 +1052,13 @@ Pelo diagrama:
      \begin{lcbr}
           |f.Leaf = id|
           \\
-          |f.Fork = (uncurry min (split g g))|
+          |f.Fork = (uncurry min (split (g.fst) (g.snd)))|
      \end{lcbr}
      \\
      \begin{lcbr}
           |g.Leaf = id|
           \\
-          |f.Fork = (uncurry max (split f f))|
+          |g.Fork = (uncurry max (split (f.snd) (f.fst)))|
      \end{lcbr}
 \end{lcbr}
 \just\equiv{ (71) }
@@ -1066,13 +1066,13 @@ Pelo diagrama:
      \begin{lcbr}
           |f.Leaf a = id a|
           \\
-          |f.Fork (a,b) = (uncurry min (split g g)) (a,b)|
+          |f.Fork (a,b) = (uncurry min (split (g.fst) (g.snd))) (a,b)|
      \end{lcbr}
      \\
      \begin{lcbr}
           |g.Leaf a= id a|
           \\
-          |f.Fork (a,b)= (uncurry max (split f f)) (a,b)|
+          |g.Fork (a,b)= (uncurry max (split (f.snd) (f.fst))) (a,b)|
      \end{lcbr}
 \end{lcbr}
 \just\equiv{ (76) }
@@ -1080,19 +1080,33 @@ Pelo diagrama:
      \begin{lcbr}
           |f.Leaf a = id a|
           \\
-          |f.Fork (a,b) = (uncurry min (split (g a) (g a)))|
+          |f.Fork (a,b) = (uncurry min (split ((g.fst) (a,b)) ((g.snd) (a,b))))|
      \end{lcbr}
      \\
      \begin{lcbr}
           |g.Leaf a= id a|
           \\
-          |f.Fork (a,b)= (uncurry max (split (f a) (f a)))|
+          |g.Fork (a,b)= (uncurry max (split ((f.snd) (a,b)) ((f.fst) (a,b))))|
+     \end{lcbr}
+\end{lcbr}
+\just\equiv{ (79), def. de id }
+\begin{lcbr}
+     \begin{lcbr}
+          |f.Leaf a = a|
+          \\
+          |f.Fork (a,b) = (uncurry min (g a,g b))|
+     \end{lcbr}
+     \\
+     \begin{lcbr}
+          |g.Leaf a= a|
+          \\
+          |g.Fork (a,b)= (uncurry max (f b,f a))|
      \end{lcbr}
 \end{lcbr}
 
-|f = alice|
+|f = bob|
 \\
-|g = bob|
+|g = alice|
 
 \end{eqnarray*}
 

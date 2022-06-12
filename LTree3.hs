@@ -74,4 +74,4 @@ base = ((0, 0), 32)
 
 desenha x = picd' [scale 0.44 (0, 0) (x >>= tri2svg)]
 
-teste = desenha (sierpinski (base, 4))
+teste = desenha (sierpinski (base, 3))
